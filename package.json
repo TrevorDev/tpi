@@ -8,7 +8,7 @@
     "package",
     "manager"
   ],
-  "main": "app.js",
+  "main": "tpi.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/TrevorDev/tpi.git"
   },
   "bin": {
-    "tsi": "./app.js"
+    "tpi": "tpi.js"
   },
   "author": "Trevor Baron",
   "license": "ISC",
