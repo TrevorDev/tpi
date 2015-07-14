@@ -1,0 +1,31 @@
+{
+  "name": "tpi",
+  "version": "1.0.0",
+  "description": "install npm packages with their tsd file",
+  "keywords": [
+    "typescript",
+    "definition",
+    "package",
+    "manager"
+  ],
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrevorDev/tpi.git"
+  },
+  "bin": {
+    "tsi": "./app.js"
+  },
+  "author": "Trevor Baron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrevorDev/tpi/issues"
+  },
+  "homepage": "https://github.com/TrevorDev/tpi#readme",
+  "dependencies": {
+    "commander": "^2.8.1"
+  }
+}
