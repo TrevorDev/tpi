@@ -1,6 +1,6 @@
 {
   "name": "tpi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "install npm packages with their tsd file",
   "keywords": [
     "typescript",
