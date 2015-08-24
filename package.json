@@ -17,7 +17,7 @@
     "url": "git+https://github.com/TrevorDev/tpi.git"
   },
   "bin": {
-    "tpi": "tpi.js"
+    "tpi": "./bin/tpi"
   },
   "author": "Trevor Baron",
   "license": "ISC",
