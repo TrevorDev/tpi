@@ -79,7 +79,7 @@ program
     let npmInstall = new CmdRunner("npm install "+pkg+" --save")
     tsdQuery.run(cph)
       .then((out:string)=>{
-        let numberOfResults = (out.match(/-/g)||[]).length
+        let numberOfResults = (out.match(/ - /g)||[]).length
   			if(numberOfResults != 1){
           console.log("tsd package not found")
           throw "tsd package not found"

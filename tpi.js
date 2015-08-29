@@ -80,7 +80,7 @@ program
     var npmInstall = new CmdRunner("npm install " + pkg + " --save");
     tsdQuery.run(cph)
         .then(function (out) {
-        var numberOfResults = (out.match(/-/g) || []).length;
+        var numberOfResults = (out.match(/ - /g) || []).length;
         if (numberOfResults != 1) {
             console.log("tsd package not found");
             throw "tsd package not found";
