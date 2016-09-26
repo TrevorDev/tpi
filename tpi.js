@@ -27,7 +27,6 @@ program
             }
         };
         if (!pkg) {
-            console.log("hit");
             let npm = new cmdRunner_1.default("npm install", cmdOptions);
             yield npm.run();
             return;

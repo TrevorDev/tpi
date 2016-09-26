@@ -22,7 +22,6 @@ program
       }
     }
     if(!pkg){
-      console.log("hit")
       let npm = new CmdRunner("npm install", cmdOptions)
       await npm.run()
       return
