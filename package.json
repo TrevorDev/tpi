@@ -1,6 +1,6 @@
 {
   "name": "tpi",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "install npm packages with their tsd file",
   "keywords": [
     "typescript",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/TrevorDev/tpi#readme",
   "dependencies": {
-    "commander": "^2.8.1"
+    "@types/commander": "^2.3.30",
+    "commander": "^2.9.0"
   }
 }

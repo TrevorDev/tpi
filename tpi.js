@@ -1,97 +1,41 @@
-var cp = require('child_process');
-var program = require('commander');
-var exec = cp.exec;
-var CmdRunner = (function () {
-    function CmdRunner(cmd) {
-        this.cmd = cmd;
-    }
-    CmdRunner.prototype.run = function (childProcessHandler) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.childProcess) {
-                resolve(false);
-                return;
-            }
-            _this.childProcess = exec(_this.cmd, function (err, out) {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(out);
-                }
-            });
-            if (childProcessHandler) {
-                childProcessHandler(_this.childProcess, _this);
-            }
-        });
-    };
-    CmdRunner.prototype.sendToStdin = function (text) {
-        if (this.childProcess) {
-            this.childProcess.stdin.write(text);
-        }
-    };
-    CmdRunner.prototype.kill = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.childProcess) {
-                if (process.platform === 'win32') {
-                    exec('taskkill /pid ' + _this.childProcess.pid + ' /T /F', function () {
-                        resolve(true);
-                    });
-                }
-                else {
-                    exec('kill -s ' + "SIGKILL" + ' ' + _this.childProcess.pid, function () {
-                        resolve(true);
-                    });
-                }
-                _this.childProcess = null;
-            }
-            else {
-                resolve(false);
-            }
-        });
-    };
-    return CmdRunner;
-})();
-;
-function cph(cp, cmdRunner) {
-    console.log("Running: " + cmdRunner.cmd);
-    cp.stdout.on('data', function (data) {
-        process.stdout.write(data);
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments)).next());
     });
-    cp.stderr.on('data', function (data) {
-        process.stdout.write(data);
-    });
-}
+};
+const program = require('commander');
+const cmdRunner_1 = require("./cmdRunner");
 program
-    .version('0.0.1')
+    .version('2.0.0')
     .command('install [name]')
     .description("install an npm package with its tsd file")
     .action(function (pkg) {
-    if (!pkg) {
-        var tsd = new CmdRunner("tsd install");
-        var npm = new CmdRunner("npm install");
-        npm.run(cph)
-            .then(tsd.run.bind(tsd, cph));
-        return;
-    }
-    var tsdQuery = new CmdRunner("tsd query " + pkg);
-    var tsdInstall = new CmdRunner("tsd install " + pkg + " --save");
-    var npmInstall = new CmdRunner("npm install " + pkg + " --save");
-    tsdQuery.run(cph)
-        .then(function (out) {
-        var numberOfResults = (out.match(/ - /g) || []).length;
-        if (numberOfResults != 1) {
-            console.log("tsd package not found");
-            throw "tsd package not found";
+    return __awaiter(this, void 0, void 0, function* () {
+        var cmdOptions = {
+            onStdErr: function (data) {
+                process.stdout.write(data);
+            },
+            onStdOut: function (data) {
+                process.stdout.write(data);
+            },
+            onStart: function (cmdRunner) {
+                console.log("Running: " + cmdRunner.cmd);
+            }
+        };
+        if (!pkg) {
+            console.log("hit");
+            let npm = new cmdRunner_1.default("npm install", cmdOptions);
+            yield npm.run();
+            return;
         }
-        return tsdInstall.run(cph);
-    })
-        .then(function (out) {
-        return npmInstall.run(cph);
-    })
-        .catch(function (err) {
-        console.log("\nInstall failed");
+        let tsdInstall = new cmdRunner_1.default("npm install @types/" + pkg + " --save", cmdOptions);
+        let npmInstall = new cmdRunner_1.default("npm install " + pkg + " --save", cmdOptions);
+        var output = yield tsdInstall.run();
+        var output = yield npmInstall.run();
     });
 });
 program.parse(process.argv);
